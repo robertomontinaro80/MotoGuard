@@ -84,62 +84,30 @@ jest.mock('react-native-reanimated', () =>
   require('react-native-reanimated/mock'),
 );
 
-// @nozbe/watermelondb — mock SQLite adapter for tests
-jest.mock('@nozbe/watermelondb/adapters/sqlite', () => {
-  return jest.fn().mockImplementation(() => ({}));
-});
-
-jest.mock('@nozbe/watermelondb', () => {
-  const mockQuery = {
-    fetch: jest.fn().mockResolvedValue([]),
-    observe: jest.fn(),
-  };
-  const mockCollection = {
-    query: jest.fn().mockReturnValue(mockQuery),
-    find: jest.fn().mockResolvedValue(null),
-    create: jest.fn().mockResolvedValue({ id: 'mock-id' }),
-  };
-  return {
-    Database: jest.fn().mockImplementation(() => ({
-      write: jest.fn(async (fn: () => Promise<void>) => fn()),
-      get: jest.fn().mockReturnValue(mockCollection),
-    })),
-    Model: class {},
-    Q: {
-      where: jest.fn(),
-      sortBy: jest.fn(),
-      take: jest.fn(),
-      desc: 'desc',
-    },
-    appSchema:   jest.fn(),
-    tableSchema: jest.fn(),
-  };
-});
-
-jest.mock('@nozbe/watermelondb/decorators', () => ({
-  field:    () => () => {},
-  text:     () => () => {},
-  date:     () => () => {},
-  readonly: () => () => {},
-  relation: () => () => {},
-}));
-
-// Mock services/database per evitare inizializzazione SQLite nei test
+// Mock services/database (in-memory)
 jest.mock('@services/database', () => ({
-  database: {
-    write: jest.fn(async (fn: () => Promise<void>) => fn()),
-    get: jest.fn().mockReturnValue({
-      query: jest.fn().mockReturnValue({ fetch: jest.fn().mockResolvedValue([]) }),
-      find: jest.fn().mockResolvedValue({ markAsDeleted: jest.fn(), update: jest.fn() }),
-      create: jest.fn().mockResolvedValue({ id: 'mock-id' }),
-    }),
+  db: {
+    load: jest.fn().mockResolvedValue(undefined),
+    getMotorcycles:      jest.fn().mockResolvedValue([]),
+    getMotorcycle:       jest.fn().mockResolvedValue(null),
+    saveMotorcycle:      jest.fn().mockImplementation(async (m) => m),
+    deleteMotorcycle:    jest.fn().mockResolvedValue(undefined),
+    getMaintenanceByMoto:jest.fn().mockResolvedValue([]),
+    getLastMaintenance:  jest.fn().mockResolvedValue(null),
+    saveMaintenance:     jest.fn().mockImplementation(async (r) => r),
+    deleteMaintenance:   jest.fn().mockResolvedValue(undefined),
+    getContacts:         jest.fn().mockResolvedValue([]),
+    saveContact:         jest.fn().mockImplementation(async (c) => c),
+    deleteContact:       jest.fn().mockResolvedValue(undefined),
+    saveFallEvent:       jest.fn().mockImplementation(async (e) => e),
   },
-  schema: {},
-  MotorcycleModel: class {},
-  MaintenanceRecordModel: class {},
-  EmergencyContactModel: class {},
-  FallEventModel: class {},
+  generateId: jest.fn(() => 'mock-id-' + Math.random().toString(36).slice(2, 7)),
 }));
+
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
+);
 jest.mock('@react-navigation/native', () => {
   const actual = jest.requireActual('@react-navigation/native');
   return {

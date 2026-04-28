@@ -10,13 +10,13 @@
     "noEmit": true,
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@screens/*": ["./src/screens/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@services/*": ["./src/services/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@theme/*": ["./src/theme/*"],
-      "@store/*": ["./src/store/*"],
-      "@types/index": ["./src/types/index"]
+      "@screens/*":    ["./src/screens/*"],
+      "@hooks/*":      ["./src/hooks/*"],
+      "@services/*":   ["./src/services/*"],
+      "@utils/*":      ["./src/utils/*"],
+      "@theme/*":      ["./src/theme/*"],
+      "@store/*":      ["./src/store/*"],
+      "@types/index":  ["./src/types/index"]
     }
   },
   "include": [

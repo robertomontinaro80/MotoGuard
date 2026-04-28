@@ -3,7 +3,6 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      // Path aliases — devono corrispondere a tsconfig.json
       [
         'module-resolver',
         {
@@ -21,7 +20,6 @@ module.exports = function (api) {
           },
         },
       ],
-      // Reanimated deve essere sempre l'ultimo plugin
       'react-native-reanimated/plugin',
     ],
   };

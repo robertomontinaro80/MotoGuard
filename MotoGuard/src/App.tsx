@@ -1,7 +1,7 @@
 /**
- * Root component — configura provider globali.
- * Se l'utente non è autenticato mostra LoginScreen,
- * altrimenti mostra l'app completa.
+ * Root component.
+ * In sviluppo (__DEV__) bypassa il login per poter testare l'app subito.
+ * Per abilitare il login reale, rimuovi il controllo __DEV__ in AppGate.
  */
 
 import 'react-native-gesture-handler';
@@ -27,7 +27,8 @@ function AppGate() {
     );
   }
 
-  if (!user) {
+  // In sviluppo bypassa il login — rimuovi "|| __DEV__" per richiedere l'auth
+  if (!user && !__DEV__) {
     return <LoginScreen />;
   }
 

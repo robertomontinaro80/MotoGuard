@@ -15,19 +15,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.yourcompany.motoguard",
-      "buildNumber": "1",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "MotoGuard usa la posizione GPS per il rilevamento caduta e le allerte SOS.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "MotoGuard usa la posizione in background per il rilevamento caduta mentre guidi.",
         "NSMotionUsageDescription": "MotoGuard accede all'accelerometro per rilevare eventuali cadute.",
-        "NSPhotoLibraryUsageDescription": "MotoGuard accede alle foto per allegare gli scontrini agli interventi.",
-        "CFBundleURLTypes": [
-          {
-            "CFBundleURLSchemes": ["com.googleusercontent.apps.YOUR_GOOGLE_IOS_CLIENT_ID"]
-          }
-        ]
-      },
-      "googleServicesFile": "./GoogleService-Info.plist"
+        "NSPhotoLibraryUsageDescription": "MotoGuard accede alle foto per allegare gli scontrini agli interventi."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -35,53 +27,19 @@
         "backgroundColor": "#0A0A0F"
       },
       "package": "com.yourcompany.motoguard",
-      "versionCode": 1,
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
         "ACTIVITY_RECOGNITION",
         "READ_EXTERNAL_STORAGE",
-        "VIBRATE",
-        "RECEIVE_BOOT_COMPLETED"
-      ],
-      "googleServicesFile": "./google-services.json"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-secure-store",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#FF6B2B"
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "MotoGuard usa la posizione per il rilevamento caduta."
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "ios": { "deploymentTarget": "15.1" },
-          "android": { "compileSdkVersion": 34, "targetSdkVersion": 34 }
-        }
+        "VIBRATE"
       ]
-    ],
+    },
     "scheme": "motoguard",
     "extra": {
-      "eas": { "projectId": "YOUR_EAS_PROJECT_ID" },
-
-      "googleClientIdExpo":   "YOUR_GOOGLE_CLIENT_ID_EXPO",
-      "googleClientIdIos":    "YOUR_GOOGLE_CLIENT_ID_IOS",
-      "googleClientIdAndroid":"YOUR_GOOGLE_CLIENT_ID_ANDROID",
-      "facebookAppId":        "YOUR_FACEBOOK_APP_ID",
-      "facebookDisplayName":  "MotoGuard"
+      "googleClientIdExpo":    "YOUR_GOOGLE_CLIENT_ID_EXPO",
+      "googleClientIdIos":     "YOUR_GOOGLE_CLIENT_ID_IOS",
+      "googleClientIdAndroid": "YOUR_GOOGLE_CLIENT_ID_ANDROID",
+      "facebookAppId":         "YOUR_FACEBOOK_APP_ID"
     }
   }
 }

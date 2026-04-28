@@ -1,71 +1,41 @@
-/**
- * MotorcycleRepository — CRUD per le moto salvate nel DB locale.
- */
-
-import { database, MotorcycleModel } from './database';
+import { db, generateId, DBMotorcycle } from './database';
 import { Motorcycle } from '@types/index';
 
-const collection = database.get<MotorcycleModel>('motorcycles');
-
-function toMotorcycle(m: MotorcycleModel): Motorcycle {
-  return {
-    id: m.id,
-    brand: m.brand,
-    model: m.model,
-    year: m.year,
-    licensePlate: m.licensePlate,
-    currentKm: m.currentKm,
-    engineCC: m.engineCC,
-    color: m.color,
-    photo: m.photo,
-    createdAt: m.createdAt,
-    updatedAt: m.updatedAt,
-  };
+function toMotorcycle(m: DBMotorcycle): Motorcycle {
+  return { ...m, createdAt: new Date(m.createdAt), updatedAt: new Date(m.updatedAt) };
 }
 
 export const MotorcycleRepository = {
   async getAll(): Promise<Motorcycle[]> {
-    const records = await collection.query().fetch();
+    const records = await db.getMotorcycles();
     return records.map(toMotorcycle);
   },
 
   async findById(id: string): Promise<Motorcycle | null> {
-    try {
-      const record = await collection.find(id);
-      return toMotorcycle(record);
-    } catch {
-      return null;
-    }
+    const r = await db.getMotorcycle(id);
+    return r ? toMotorcycle(r) : null;
   },
 
   async create(data: Omit<Motorcycle, 'id' | 'createdAt' | 'updatedAt'>): Promise<Motorcycle> {
-    let created!: MotorcycleModel;
-    await database.write(async () => {
-      created = await collection.create((m) => {
-        m.brand = data.brand;
-        m.model = data.model;
-        m.year = data.year;
-        m.licensePlate = data.licensePlate;
-        m.currentKm = data.currentKm;
-        m.engineCC = data.engineCC;
-        m.color = data.color ?? '';
-        m.photo = data.photo ?? '';
-      });
-    });
-    return toMotorcycle(created);
+    const now = Date.now();
+    const record: DBMotorcycle = {
+      id: generateId(),
+      brand: data.brand, model: data.model, year: data.year,
+      licensePlate: data.licensePlate, currentKm: data.currentKm,
+      engineCC: data.engineCC, color: data.color, photo: data.photo,
+      createdAt: now, updatedAt: now,
+    };
+    const saved = await db.saveMotorcycle(record);
+    return toMotorcycle(saved);
   },
 
   async updateKm(id: string, currentKm: number): Promise<void> {
-    await database.write(async () => {
-      const record = await collection.find(id);
-      await record.update((m) => { m.currentKm = currentKm; });
-    });
+    const existing = await db.getMotorcycle(id);
+    if (!existing) return;
+    await db.saveMotorcycle({ ...existing, currentKm, updatedAt: Date.now() });
   },
 
   async delete(id: string): Promise<void> {
-    await database.write(async () => {
-      const record = await collection.find(id);
-      await record.markAsDeleted();
-    });
+    await db.deleteMotorcycle(id);
   },
 };
