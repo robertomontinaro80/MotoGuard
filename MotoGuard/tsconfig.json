@@ -3,27 +3,47 @@
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "jsx": "react-native",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@screens/*":    ["./src/screens/*"],
-      "@hooks/*":      ["./src/hooks/*"],
-      "@services/*":   ["./src/services/*"],
-      "@utils/*":      ["./src/utils/*"],
-      "@theme/*":      ["./src/theme/*"],
-      "@store/*":      ["./src/store/*"],
-      "@types/index":  ["./src/types/index"]
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@screens/*": [
+        "./src/screens/*"
+      ],
+      "@navigation/*": [
+        "./src/navigation/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@theme/*": [
+        "./src/theme/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@types/index": [
+        "./src/types/index"
+      ]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".expo/types/**/*.d.ts",
-    "expo-env.d.ts"
+    ".expo/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { Platform } from 'react-native';
 import * as Google   from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import { AuthService, AuthUser, TokenStorage } from '@services/AuthService';
@@ -15,6 +16,7 @@ import Constants from 'expo-constants';
 const GOOGLE_CLIENT_ID_EXPO  = Constants.expoConfig?.extra?.googleClientIdExpo  ?? '';
 const GOOGLE_CLIENT_ID_IOS   = Constants.expoConfig?.extra?.googleClientIdIos   ?? '';
 const GOOGLE_CLIENT_ID_ANDROID = Constants.expoConfig?.extra?.googleClientIdAndroid ?? '';
+const GOOGLE_CLIENT_ID_WEB   = Constants.expoConfig?.extra?.googleClientIdWeb   ?? '';
 const FACEBOOK_APP_ID        = Constants.expoConfig?.extra?.facebookAppId        ?? '';
 
 export interface UseAuthReturn {
@@ -34,10 +36,17 @@ export function useAuth(): UseAuthReturn {
   const [error,      setError]      = useState<string | null>(null);
 
   // ─── Google request ──────────────────────────────────────────────────────
+  // Su web, se webClientId non è configurato, usiamo un valore dummy per evitare l'errore
+  // Il vero controllo avviene in signInWithGoogle
+  const googleWebClientId = Platform.OS === 'web' 
+    ? (GOOGLE_CLIENT_ID_WEB || 'web-unconfigured') 
+    : undefined;
+  
   const [, googleResponse, promptGoogle] = Google.useAuthRequest({
     expoClientId:   GOOGLE_CLIENT_ID_EXPO,
     iosClientId:    GOOGLE_CLIENT_ID_IOS,
     androidClientId:GOOGLE_CLIENT_ID_ANDROID,
+    webClientId:    googleWebClientId,
   });
 
   // ─── Facebook request ────────────────────────────────────────────────────
@@ -82,11 +91,21 @@ export function useAuth(): UseAuthReturn {
 
   // ─── Actions ──────────────────────────────────────────────────────────────
   const signInWithGoogle = useCallback(async () => {
+    // Su web, Google auth non è configurato
+    if (Platform.OS === 'web' && !GOOGLE_CLIENT_ID_WEB) {
+      setError('Google authentication is not available on web. Please use the mobile app.');
+      return;
+    }
     setError(null);
     await promptGoogle();
   }, [promptGoogle]);
 
   const signInWithFacebook = useCallback(async () => {
+    // Su web, Facebook auth potrebbe anche non essere disponibile
+    if (Platform.OS === 'web' && !FACEBOOK_APP_ID) {
+      setError('Facebook authentication is not available on web. Please use the mobile app.');
+      return;
+    }
     setError(null);
     await promptFacebook();
   }, [promptFacebook]);

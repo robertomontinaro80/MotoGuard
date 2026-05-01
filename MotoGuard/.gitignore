@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+dist-ssr/
+
+# Build
+build/
+coverage/
+
+# Testing
+*.lcov
+.nyc_output
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+*~
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+
+# Babel
+.babel-cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Mobile
+ios/
+android/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.*.local

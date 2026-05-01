@@ -1,0 +1,59 @@
+# Dependencies
+MotoGuard/node_modules
+MotoGuard/.pnp
+MotoGuard/.pnp.js
+
+# Expo
+MotoGuard/.expo
+MotoGuard/.expo-shared
+MotoGuard/dist
+MotoGuard/dist-ssr
+
+# Build
+MotoGuard/build
+MotoGuard/coverage
+
+# Testing
+*.lcov
+MotoGuard/.nyc_output
+
+# IDE
+MotoGuard/.idea
+MotoGuard/.vscode
+MotoGuard/*.swp
+MotoGuard/*.swo
+MotoGuard/*~
+
+# Environment
+MotoGuard/.env.local
+MotoGuard/.env.*.local
+
+# OS
+Thumbs.db
+MotoGuard/Thumbs.db
+
+# Babel
+MotoGuard/.babel-cache
+
+# TypeScript
+MotoGuard/*.tsbuildinfo
+
+# Mobile
+MotoGuard/ios
+MotoGuard/android
+
+# Logs
+MotoGuard/logs
+*.log
+MotoGuard/*.log
+MotoGuard/npm-debug.log*
+MotoGuard/yarn-debug.log*
+MotoGuard/yarn-error.log*
+
+# Environment
+MotoGuard/.env
+MotoGuard/.env.*.local
+
+# Environment
+MotoGuard/.env
+MotoGuard/.env.*.local
